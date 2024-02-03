@@ -1,9 +1,14 @@
 <template>
     <Screen>
         <Card>
-            <template v-slot:header>Login</template>
+            <template v-slot:header>Register</template>
             <template v-slot:body>
                 <div>
+                    <Input label="Name" placeHolder="Name"  types="text">
+                        <template v-slot:prefixIcon>
+                            <i class="pi pi-user" style="color: slateblue"></i>
+                        </template>
+                    </Input>
                     <Input label="Email" placeHolder="Email"  types="email">
                         <template v-slot:prefixIcon>
                             <i class="pi pi-envelope" style="color: slateblue"></i>
@@ -15,10 +20,10 @@
                         </template>
                     </Input>
                 </div>
-                <Button title="Sign In" />
+                <Button title="Sign Up" />
                 <div class="flex my-4 text-[12px] text-slate-500">
-                    <span class="">Dont have an account yet,</span> 
-                    <a href="" class="text-blue ml-1" onclick="this.$router.push({name:'register'})"> register</a>
+                    <span class="">Already have an account,</span> 
+                    <a href="" class="text-blue ml-1" onclick="this.$router.push({name:'login'})"> login</a>
                 </div>
             </template>
         </Card>

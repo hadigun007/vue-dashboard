@@ -9,6 +9,12 @@ const router = createRouter({
         {
             path: "/login", name: 'login', component:()=>import('./pages/login.vue')
         },
+        {
+            path: "/register", name: 'register', component:()=>import('./pages/register.vue')
+        },
+        {
+            path: "/set-2fa", name: 'set-2fa', component:()=>import('./pages/set_2fa.vue')
+        },
 
     ]
 })
