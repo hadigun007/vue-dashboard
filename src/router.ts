@@ -18,6 +18,9 @@ const router = createRouter({
         {
             path: "/verify-2fa", name: 'verify-2fa', component:()=>import('./pages/verify_2fa.vue')
         },
+        {
+            path: "/dashboard", name: 'dashboard', component:()=>import('./pages/dashboard.vue')
+        },
 
     ]
 })
