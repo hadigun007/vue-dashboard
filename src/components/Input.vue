@@ -5,14 +5,19 @@
             <span>
                 <slot name="prefixIcon"></slot>
             </span>
-            <input :type=types class="mx-4 bg-transparent" :placeholder=placeHolder >
+            <input :value="value" @input="$emit('input', $event.target.value)" :type=types class="mx-4 bg-transparent" :placeholder=placeHolder >
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    props:["label", "placeHolder", "types"]
+    props:["label", "placeHolder", "types", "value"],
+    methods:{
+        onchanges(e){
+            console.log(e);
+        }
+    }
 }
 </script>
 

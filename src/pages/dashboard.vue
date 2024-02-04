@@ -1,8 +1,6 @@
 <template>
         <div class="flex">
-            <!-- sidebar  -->
            <Sidebar/>
-            <!-- content  -->
             <Content/>
         </div>
     </template>

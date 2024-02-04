@@ -3,15 +3,19 @@
         <Card>
             <template v-slot:header>Two Factor Authentication</template>
             <template v-slot:body>
-                <div class="py-4 flex flex-col">
+                <div v-if="this.$store.state.setup_2fa.generate_loading == true" class="h-[100px] flex justify-center items-center my-4">
+                    <ProgressSpinner class="w-[80px]" />
+                </div>
+                <div v-else class="py-4 flex flex-col">
                     <label for="" class="mt-2">1. Scan Qr below:</label>
                     <vue-qr text="dbnwhfboucbwoudebc ouh bw coo" class="w-[200px]" :size="200"></vue-qr>
                     <label for="" class="mb-2">Or Copy Secret Key:</label>
-                    <div class=" bg-purple-50 border-[1px] flex items-center max-w-max px-4 py-2 rounded-sm text-sm text-slate-600">
-                        <span>ASDFGHJKIUYTGFVBJKUYTFVBN</span>
+                    <div
+                        class=" bg-purple-50 border-[1px] flex items-center max-w-max px-4 py-2 rounded-sm text-sm text-slate-600">
+                        <span>{{ this.$store.state.setup_2fa.secret_key }}</span>
                         <i class="pi pi-copy mx-4 cursor-pointer w-3" style="color: slateblue"></i>
                     </div>
-                    <label for=""  class="mt-2">2. OTP Code:</label>
+                    <label for="" class="mt-2">2. OTP Code:</label>
                     <Input label="" placeHolder="OTP Code" types="password">
 
                     <template v-slot:prefixIcon>
@@ -19,17 +23,30 @@
                     </template>
                     </Input>
                 </div>
-                <Button title="Verify" />
+                <Button title="Verify" :loading="this.$store.state.setup_2fa.verify_loading" />
             </template>
         </Card>
     </Screen>
 </template>
 
 
-<script setup>
+<script>
 import vueQr from 'vue-qr/src/packages/vue-qr.vue'
 import Screen from '../components/ScreenWrapper.vue'
 import Card from '../components/Card.vue'
 import Input from '../components/Input.vue'
 import Button from '../components/Button.vue'
+import store from '../store/store'
+import { LocalStorage } from '../util/local_storage'
+import ProgressSpinner from 'primevue/progressspinner'
+const local_storage = new LocalStorage()
+
+export default {
+    mounted() {
+        store.commit("redirect", this.$router)
+        store.dispatch('generate2fa')
+    },
+    components: { vueQr, Screen, Card, Input, Button, ProgressSpinner },
+
+}
 </script>
