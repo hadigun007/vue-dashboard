@@ -16,7 +16,12 @@ const login = {
             password:""
         }
     },
-    mutations:{},
+    mutations:{
+        reset(s:any){
+            s.state.email = ""
+            s.state.password = ""
+        }
+    },
     actions:{
         async login (s:any, payload:any){
             
@@ -27,14 +32,18 @@ const login = {
             await axios.post(`${s.rootState.baseurl}/public/auth/login`, user.getLogin(),
             s.rootState.headers)
             .then((response)=>{
+                console.log(response.data.data.status);
                 s.state.loading = false
-                local_storage.setVerify_token(response.data.data.verify_token)
-                if(response.data.data.status == "1" || response.data.data.status == "2"){
+                
+                if(response.data.data.status == 1 || response.data.data.status == 2){
+                    local_storage.setSetup_token(response.data.data.verify_token)
                     payload.push({name:'setup-2fa'})
                 }
-                else if(response.data.data.status == "3"){
+                else if(response.data.data.status == 3){
+                    local_storage.setVerify_token(response.data.data.verify_token)
                     payload.push({name:'verify-2fa'})
                 }
+
                 store.commit("showAlert", {
                     message: response.data.status,
                     type: "info"
@@ -47,7 +56,7 @@ const login = {
                 s.state.loading = false
 
                 store.commit("showAlert", {
-                    message: error.response.data.message ?? "Something went error!",
+                    message: error.response == null ? "Something went error!" : error.response.data.message, 
                     type: "error"
                 })
 

@@ -4,8 +4,8 @@ export class UserModel {
     private name!:string
     private password!:string
     private verify_token!:string
+    private otp_code!:string
 
-    private instance = this
 
     public getId(): string {
         return this.id;
@@ -47,10 +47,24 @@ export class UserModel {
         this.verify_token = verify_token;
     }
 
+    public setOtpCode(otp_code:string){
+       this.otp_code =  otp_code
+    }
+
+    public getOtpCode():string{
+        return this.otp_code
+    }
+
     public getLogin(){
         return {
             email: this.email,
             password: this.password
+        }
+    }
+    public getVerify2fa(){
+        return {
+            otp_code: this.otp_code,
+            verify_token: this.verify_token
         }
     }
 

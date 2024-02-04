@@ -8,11 +8,11 @@
                         <label for="">OTP Code</label>
                         <div class="bg-slate-50 border-[1px] border-slate-200 px-3 py-3 my-2 rounded-sm flex items-center">
                             <i class="pi pi-key" style="color: slateblue"></i>
-                            <input v-model=password type="password" class="mx-4 bg-transparent" placeholder="OTP Code">
+                            <input v-model=this.$store.state.verify_2fa.otp_code type="password" class="mx-4 bg-transparent" placeholder="OTP Code">
                         </div>
                     </div>
                 </div>
-                <Button title="Verify" :loading="this.$store.state.verify_2fa.verify_loading" />
+                <Button @click="verify_2fa()" title="Verify" :loading="this.$store.state.verify_2fa.verify_loading" />
             </template>
         </Card>
     </Screen>
@@ -28,6 +28,11 @@ export default {
     created() {
         store.commit("redirect", this.$router)
     },
-    components: { Screen, Card, Button }
+    components: { Screen, Card, Button },
+    methods:{
+        verify_2fa(){
+            store.dispatch('verify2fa', this.$router)
+        }
+    }
 }
 </script>

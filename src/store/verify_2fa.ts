@@ -1,39 +1,37 @@
 import axios from 'axios'
 import store from './store'
 import {LocalStorage} from '../util/local_storage'
+import { UserModel } from '../model/user_model'
 
 const local_storage = new LocalStorage()
+const user = new UserModel()
 
 const verify_2fa = {
     state:()=>{
         return{
             verify_loading: false,
-            otp_code: false,
-
+            otp_code: "",
         }
     },
     mutations:{
-        init(s:any, payload:any){
-            
-                s.verify_loading = false
-                s.otp_code = ""
-                
-        },
-    }
-,    actions:{
-        async setup2fa (s:any, payload:any){
-            await axios.post(`${s.state.login.baseurl}/public/auth/verify_2fa`, payload.user,
+    },    
+    actions:{
+        async verify2fa (s:any, payload:any){
+
+            user.setOtpCode(s.state.otp_code)
+            user.setVerify_token(local_storage.getVerify_token())
+
+            await axios.post(`${s.rootState.baseurl}/public/auth/verify_2fa`, user.getVerify2fa(),
             s.state.headers)
-            .then((response)=>{
-                
+            .then((response)=>{    
                 s.state.loading = false
-                local_storage.setVerify_token(response.data.data.verify_token)
+                payload.push({name:'dashboard'})
+                local_storage.removeVerifyToken()
+                local_storage.setJwt_token(response.data.token)
                 store.commit("showAlert", {
                     message: response.data.status,
                     type: "info"
                 })
-                payload.router.push({name:'setup-2fa'})
-                
             })
             .catch((error)=>{
                 s.state.loading = false
@@ -41,7 +39,6 @@ const verify_2fa = {
                     message: error.response.data.message,
                     type: "error"
                 })
-
             })
         }
     }
