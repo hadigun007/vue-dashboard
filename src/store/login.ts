@@ -44,6 +44,8 @@ const login = {
                     payload.push({name:'verify-2fa'})
                 }
 
+                s.state.email = ""
+                s.state.password = ""
                 store.commit("showAlert", {
                     message: response.data.status,
                     type: "info"

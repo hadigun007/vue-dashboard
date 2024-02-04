@@ -26,6 +26,7 @@ const setup_2fa = {
                 s.state.generate_loading = false
                 s.state.secret_key = response.data.data.secret_key
                 s.state.otpauth_url = response.data.data.otpauth_url
+                s.state.otp_code = ""
 
                 store.commit("showAlert", {
                     message: response.data.status,

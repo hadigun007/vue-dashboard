@@ -28,6 +28,7 @@ const verify_2fa = {
                 payload.push({name:'dashboard'})
                 local_storage.removeVerifyToken()
                 local_storage.setJwt_token(response.data.token)
+                s.state.otp_code = ""
                 store.commit("showAlert", {
                     message: response.data.status,
                     type: "info"
