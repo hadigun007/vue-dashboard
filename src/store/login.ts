@@ -13,17 +13,43 @@ const login = {
         return{
             loading: false,
             email:"",
-            password:""
+            email_err_msg:"",
+            password:"",
+            password_err_msg:"",
         }
     },
     mutations:{
-        reset(s:any){
-            s.state.email = ""
-            s.state.password = ""
-        }
     },
     actions:{
         async login (s:any, payload:any){
+
+            let email_s = true
+            let password_s = true
+
+
+            if(s.state.email == ""){
+                email_s = false
+                s.state.email_err_msg = "email can not be empty"
+            }else if(!s.state.email.includes("@") || !s.state.email.includes(".")){
+                email_s = false
+                s.state.email_err_msg = "email not valid"
+            }else{
+                email_s = true
+                s.state.email_err_msg = ""
+            }
+            
+            if(s.state.password == ""){
+                password_s = false
+                s.state.password_err_msg = "password can not be empty"
+            }else if(s.state.password.length<8){
+                password_s = false
+                s.state.password_err_msg = "password minimal 8 digit"
+            }else{
+                password_s = true
+                s.state.password_err_msg = ""
+            }
+
+            if(email_s == false || password_s == false) return
             
             user.setEmail(s.state.email)
             user.setPassword(s.state.password)

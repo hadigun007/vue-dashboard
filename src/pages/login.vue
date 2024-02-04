@@ -6,21 +6,27 @@
                 <div>
                     <div class="flex flex-col my-3">
                         <label for="">Email</label>
-                        <div class="bg-slate-50 border-[1px] border-slate-200 px-3 py-3 my-2 rounded-sm flex items-center">
+                        <div 
+                        :class="[this.$store.state.login.email_err_msg == '' ? '':'border-red-600']"
+                        class="bg-slate-50 border-[1px] border-slate-200 px-3 py-3 my-2 rounded-sm flex items-center">
                             <i class="pi pi-envelope" style="color: slateblue"></i>
                             <input v-model="this.$store.state.login.email" type="email" class="mx-4 bg-transparent"
                                 placeholder="Email">
+                            </div>
+                            <span class="text-[11px] font-light text-red-500">{{ this.$store.state.login.email_err_msg }}</span>
+                            
                         </div>
-                    </div>
-                    <div>
-                        <div class="flex flex-col my-3">
-                            <label for="">Password</label>
-                            <div
+                        <div>
+                            <div class="flex flex-col my-3">
+                                <label for="">Password</label>
+                                <div
+                                :class="[this.$store.state.login.password_err_msg == '' ? '':'border-red-600']"
                                 class="bg-slate-50 border-[1px] border-slate-200 px-3 py-3 my-2 rounded-sm flex items-center">
                                 <i class="pi pi-key" style="color: slateblue"></i>
                                 <input v-model=this.$store.state.login.password type="password" class="mx-4 bg-transparent"
-                                    placeholder="Password">
+                                placeholder="Password">
                             </div>
+                            <span class="text-[11px] font-light text-red-500">{{ this.$store.state.login.password_err_msg }}</span>
                         </div>
                     </div>
                 </div>
